@@ -71,7 +71,7 @@ export default function RepeatSettings({
     const weekdays = has
       ? config.weekdays.filter((d) => d !== day)
       : [...config.weekdays, day].sort((a, b) => {
-          const order = WEEKDAY_OPTIONS.map((w) => w.value);
+          const order = WEEKDAY_OPTIONS.map((w) => w.value) as number[];
           return order.indexOf(a) - order.indexOf(b);
         });
     updateConfig({ weekdays });

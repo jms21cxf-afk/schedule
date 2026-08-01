@@ -15,7 +15,6 @@ import {
 import type { Schedule, ScheduleFormData } from './types/schedule';
 import {
   formatSelectedLabel,
-  formatDateKey,
   isSameDay,
   parseScheduleDate,
   toDateString,

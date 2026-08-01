@@ -1,0 +1,13 @@
+# Render — schedule-backend 웹 서비스
+services:
+  - type: web
+    name: schedule-backend
+    runtime: node
+    rootDir: schedule-backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: NODE_VERSION
+        value: "20"
