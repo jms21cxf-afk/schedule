@@ -1,0 +1,45 @@
+.add-schedule-fab {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .add-schedule-fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 20px;
+    /* 브라우저 주소창(~5173) 위에 연필 버튼 */
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    z-index: 250;
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .add-schedule-fab:active {
+    transform: scale(0.95);
+  }
+
+  .add-schedule-fab:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* 일정 입력 시트 열릴 때 연필 FAB 숨김 */
+  .app.form-open .add-schedule-fab {
+    display: none;
+  }
+
+  .fab-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+}

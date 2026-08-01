@@ -1,0 +1,33 @@
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.nav-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+}
+
+.nav-arrow {
+  display: block;
+}
+
+.nav-btn:hover {
+  opacity: 0.65;
+}
+
+.month-label {
+  min-width: 80px;
+  text-align: center;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "schedule",
+  "private": true,
+  "version": "1.0.0",
+  "description": "일정 관리 앱 (백엔드 + 프론트엔드)",
+  "workspaces": [
+    "schedule-backend",
+    "schedule-react"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:backend": "npm run dev -w schedule-backend",
+    "dev:react": "npm run dev -w schedule-react",
+    "install:all": "npm install"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

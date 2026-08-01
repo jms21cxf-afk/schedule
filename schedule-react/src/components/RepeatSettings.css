@@ -1,0 +1,136 @@
+.repeat-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.repeat-interval-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.repeat-interval-label {
+  font-size: 0.95rem;
+}
+
+.repeat-interval-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.interval-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.interval-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.interval-value {
+  min-width: 24px;
+  text-align: center;
+}
+
+.repeat-weekdays {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.weekday-chip {
+  min-width: 36px;
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 8px 10px;
+  border-radius: 50%;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.weekday-chip.active {
+  border-color: #333;
+  background: #333;
+  color: #fff;
+}
+
+.repeat-pattern-label,
+.repeat-monthly-pattern {
+  margin: 0;
+  padding: 4px 0;
+  font-size: 0.95rem;
+}
+
+.repeat-yearly-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.repeat-yearly-option {
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.repeat-yearly-option.active {
+  border-color: #333;
+  background: #333;
+  color: #fff;
+}
+
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+}
+
+.repeat-end-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  cursor: pointer;
+  padding: 8px 0;
+  font: inherit;
+}
+
+.repeat-end-summary::-webkit-details-marker {
+  display: none;
+}
+
+.repeat-end-value {
+  color: #666;
+}
+
+.repeat-end-body {
+  padding-bottom: 8px;
+}
+
+.repeat-end-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.repeat-end-date {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  font: inherit;
+}

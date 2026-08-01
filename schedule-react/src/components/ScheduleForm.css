@@ -1,0 +1,147 @@
+.schedule-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.schedule-form-title {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  padding: 12px 0;
+  font: inherit;
+  font-size: 1rem;
+  outline: none;
+}
+
+.schedule-form-title::placeholder {
+  color: #999;
+}
+
+.schedule-form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 14px 0;
+  border: none;
+  border-bottom: 1px solid #eee;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.row-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #666;
+}
+
+.color-preview {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.schedule-form-options {
+  padding: 8px 0 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.options-label {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.repeat-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.option-chip {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.option-chip.active {
+  border-color: #333;
+  background: #333;
+  color: #fff;
+}
+
+.color-options {
+  display: flex;
+  gap: 10px;
+}
+
+.color-chip {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.color-chip.active {
+  border-color: #000;
+  box-shadow: 0 0 0 2px #fff inset;
+}
+
+.schedule-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-delete {
+  margin-right: auto;
+  padding: 10px 16px;
+  border: 1px solid #c00;
+  background: #fff;
+  color: #c00;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn-delete:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-cancel,
+.btn-submit {
+  padding: 10px 20px;
+  border: 1px solid #000;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn-submit {
+  background: #000;
+  color: #fff;
+}
+
+.btn-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.schedule-form-error {
+  color: #c00;
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
