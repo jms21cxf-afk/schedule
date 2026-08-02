@@ -17,6 +17,8 @@ export interface DayWeather {
   hour: number;
   /** 선택일이 오늘이면 true — 현재 시각 기준 */
   isToday: boolean;
+  /** 상대 습도 (%) */
+  humidity: number;
 }
 
 /** Open-Meteo WMO 코드 → 표시용 날씨 (시간별 값) */
@@ -76,5 +78,6 @@ export function weatherFromCode(
     needsUmbrella,
     hour: 0,
     isToday: false,
+    humidity: 0,
   };
 }

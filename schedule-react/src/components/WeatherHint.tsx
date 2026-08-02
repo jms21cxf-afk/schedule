@@ -14,9 +14,11 @@ export default function WeatherHint({ weather }: WeatherHintProps) {
     ? `지금 ${weather.hour}시`
     : `${weather.hour}시`;
 
+  const humidityLabel = `습도 ${weather.humidity}%`;
+
   const ariaLabel = weather.needsUmbrella
-    ? `${timeLabel}, ${weather.label}, 강수 확률 ${weather.rainProbability}%`
-    : `${timeLabel}, ${weather.label}`;
+    ? `${timeLabel}, ${weather.label}, ${humidityLabel}, 강수 확률 ${weather.rainProbability}%`
+    : `${timeLabel}, ${weather.label}, ${humidityLabel}`;
 
   return (
     <div
@@ -32,6 +34,9 @@ export default function WeatherHint({ weather }: WeatherHintProps) {
       <span className="weather-hint-time">{timeLabel}</span>
       <WeatherIcon type={weather.icon} />
       <span className="weather-hint-label">{weather.label}</span>
+      {weather.humidity > 0 && (
+        <span className="weather-hint-humidity">{humidityLabel}</span>
+      )}
       {weather.needsUmbrella && weather.rainProbability > 0 && (
         <span className="weather-hint-extra">
           강수 {weather.rainProbability}%

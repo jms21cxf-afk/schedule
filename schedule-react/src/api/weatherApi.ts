@@ -15,6 +15,7 @@ interface HourlyForecastResponse {
     precipitation_probability?: number[];
     precipitation?: number[];
     weathercode?: number[];
+    relative_humidity_2m?: number[];
   };
 }
 
@@ -59,7 +60,7 @@ export async function fetchDayWeather(
   url.searchParams.set('longitude', String(coords.longitude));
   url.searchParams.set(
     'hourly',
-    'precipitation_probability,precipitation,weathercode'
+    'precipitation_probability,precipitation,weathercode,relative_humidity_2m'
   );
   url.searchParams.set('timezone', 'Asia/Seoul');
   url.searchParams.set('start_date', dateKey);
@@ -78,12 +79,14 @@ export async function fetchDayWeather(
   const prob = data.hourly?.precipitation_probability?.[idx] ?? 0;
   const amount = data.hourly?.precipitation?.[idx] ?? 0;
   const code = data.hourly?.weathercode?.[idx] ?? 0;
+  const humidity = data.hourly?.relative_humidity_2m?.[idx] ?? 0;
 
   const weather = weatherFromCode(code, prob, amount);
   return {
     ...weather,
     hour: targetHour,
     isToday,
+    humidity: Math.round(humidity),
   };
 }
 

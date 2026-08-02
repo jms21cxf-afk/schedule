@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "preview:mobile": "npm run build && vite preview --host"
+    "preview:mobile": "npm run build && vite preview --host",
+    "icons": "node scripts/generate-pwa-icons.mjs"
   },
   "dependencies": {
     "react": "^19.2.7",
@@ -20,6 +21,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
     "oxlint": "^1.71.0",
+    "sharp": "^0.35.3",
     "typescript": "~6.0.2",
     "vite": "^8.1.1"
   }
