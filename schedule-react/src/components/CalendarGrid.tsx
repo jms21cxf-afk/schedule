@@ -27,17 +27,15 @@ export default function CalendarGrid({
   const today = new Date();
   const totalRows = Math.ceil(cells.length / 7);
 
-  /** 날짜 색상 — 공휴일 > 오늘 > 주말 */
+  /** 날짜 색상 — 공휴일은 일요일과 동일 빨강, 오늘 > 주말 */
   function getDayNumClass(
     cellDate: Date,
     isToday: boolean,
     holidayName: string | null
   ): string {
-    if (holidayName) return 'holiday';
     if (isToday) return 'today';
-    const weekday = cellDate.getDay();
-    if (weekday === 0) return 'sunday';
-    if (weekday === 6) return 'saturday';
+    if (holidayName || cellDate.getDay() === 0) return 'sunday';
+    if (cellDate.getDay() === 6) return 'saturday';
     return '';
   }
 
@@ -78,7 +76,13 @@ export default function CalendarGrid({
                 <td key={cellKey}>
                   <button
                     type="button"
-                    className={`day-btn${isSelected ? ' selected' : ''}`}
+                    className={`day-btn${isSelected ? ' selected' : ''}${
+                      dayNumClass === 'sunday'
+                        ? ' sunday'
+                        : dayNumClass === 'saturday'
+                          ? ' saturday'
+                          : ''
+                    }`}
                     onClick={() => onSelectDay(day)}
                   >
                     <div className="day-num-row">

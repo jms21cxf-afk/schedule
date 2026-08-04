@@ -1,104 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs>
-    <!-- 회색 네온 글로우 -->
-    <filter id="grayNeon" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="glow" />
-      <feMerge>
-        <feMergeNode in="glow" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-    <!-- 검정 네온(어두운 외곽 글로우) -->
-    <filter id="blackNeon" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="glow" />
-      <feColorMatrix
-        in="glow"
-        type="matrix"
-        values="0 0 0 0 0.15
-                0 0 0 0 0.15
-                0 0 0 0 0.15
-                0 0 0 0.9 0"
-        result="darkGlow"
-      />
-      <feMerge>
-        <feMergeNode in="darkGlow" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-  </defs>
+  <!-- 흰 배경 -->
+  <rect width="512" height="512" rx="108" fill="#ffffff" />
 
-  <!-- 배경 -->
-  <rect width="512" height="512" rx="108" fill="#0a0a0a" />
-
-  <!-- 검정 네온 외곽 -->
+  <!-- 검정 캘린더 테두리 — 원래 형태, 선만 굵게 -->
   <rect
-    x="56"
-    y="80"
-    width="400"
-    height="376"
-    rx="40"
+    x="72"
+    y="96"
+    width="368"
+    height="344"
+    rx="32"
     fill="none"
-    stroke="#2a2a2a"
-    stroke-width="44"
-    filter="url(#blackNeon)"
-  />
-
-  <!-- 회색 네온 캘린더 테두리 -->
-  <rect
-    x="56"
-    y="80"
-    width="400"
-    height="376"
-    rx="40"
-    fill="#111111"
-    stroke="#d1d5db"
+    stroke="#333333"
     stroke-width="28"
-    filter="url(#grayNeon)"
   />
 
-  <!-- 헤더 구분선 -->
+  <!-- 회색 헤더 구분선 -->
   <line
-    x1="56"
-    y1="168"
-    x2="456"
-    y2="168"
-    stroke="#9ca3af"
-    stroke-width="24"
-    filter="url(#grayNeon)"
+    x1="72"
+    y1="176"
+    x2="440"
+    y2="176"
+    stroke="#bdbdbd"
+    stroke-width="22"
   />
 
-  <!-- 고리 — 굵게 -->
+  <!-- 고리 -->
   <line
-    x1="148"
-    y1="48"
-    x2="148"
-    y2="120"
-    stroke="#e5e7eb"
-    stroke-width="32"
+    x1="160"
+    y1="72"
+    x2="160"
+    y2="128"
+    stroke="#333333"
+    stroke-width="28"
     stroke-linecap="round"
-    filter="url(#grayNeon)"
   />
   <line
-    x1="364"
-    y1="48"
-    x2="364"
-    y2="120"
-    stroke="#e5e7eb"
-    stroke-width="32"
+    x1="352"
+    y1="72"
+    x2="352"
+    y2="128"
+    stroke="#333333"
+    stroke-width="28"
     stroke-linecap="round"
-    filter="url(#grayNeon)"
   />
 
-  <!-- 날짜 숫자 — 굵은 회색 네온 -->
+  <!-- 날짜 숫자 -->
   <text
     x="256"
-    y="310"
+    y="300"
     text-anchor="middle"
     font-family="system-ui, sans-serif"
-    font-size="132"
-    font-weight="800"
-    fill="#f3f4f6"
-    filter="url(#grayNeon)"
+    font-size="120"
+    font-weight="700"
+    fill="#333333"
   >
     31
   </text>

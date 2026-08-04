@@ -2,6 +2,7 @@
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  --calendar-sunday-color: #e53935;
 }
 
 .calendar-grid th,
@@ -22,12 +23,14 @@
   height: 88px;
 }
 
-/* 요일 헤더 — 일요일 빨강, 토요일 파랑 */
-.calendar-grid th.sunday {
-  color: #e53935;
+/* 요일 헤더·일요일·공휴일 — 같은 빨강 (셀 전체에 적용해 공휴일명도 동일 색) */
+.calendar-grid th.sunday,
+.day-btn.sunday {
+  color: var(--calendar-sunday-color);
 }
 
-.calendar-grid th.saturday {
+.calendar-grid th.saturday,
+.day-btn.saturday {
   color: #1e88e5;
 }
 
@@ -63,21 +66,14 @@
   line-height: 1;
 }
 
-/* 날짜 색 — 일요일 빨강, 토요일 파랑, 오늘 초록 */
-.day-num.sunday {
-  color: #e53935;
-}
-
-.day-num.saturday {
-  color: #1e88e5;
-}
-
+/* 날짜 색 — 오늘은 초록 (일·공휴일·토는 day-btn에서 상속) */
 .day-num.today {
   color: #2e7d32;
 }
 
-.day-num.holiday {
-  color: #e53935;
+/* 평일 공휴일 — day-btn에 sunday가 없을 때만 공휴일명 빨강 */
+.day-btn:not(.sunday) .holiday-label {
+  color: var(--calendar-sunday-color);
 }
 
 .today-label {
@@ -89,7 +85,6 @@
 
 .holiday-label {
   display: block;
-  color: #e53935;
   font-size: 0.55rem;
   font-weight: 600;
   line-height: 1.2;
@@ -143,10 +138,6 @@
   .calendar-grid.compact .day-num-row {
     margin-bottom: 0;
     justify-content: center;
-  }
-
-  .calendar-grid.compact .day-num.holiday {
-    color: #e53935;
   }
 
   .calendar-grid.compact .day-num {
