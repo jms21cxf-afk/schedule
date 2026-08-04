@@ -5,7 +5,7 @@ import CalendarGrid from './components/CalendarGrid';
 import SchedulePanel from './components/SchedulePanel';
 import ScheduleFormSheet from './components/ScheduleFormSheet';
 import AddScheduleFab from './components/AddScheduleFab';
-import InstallHint from './components/InstallHint';
+import InstallPrompt from './components/InstallPrompt';
 import {
   createSchedule,
   deleteSchedule,
@@ -214,6 +214,7 @@ function App() {
     <main
       className={`app${isFormOpen ? ' form-open' : ''}${isMobileLayout && isCalendarCollapsed ? ' calendar-collapsed' : ''}`}
     >
+      <InstallPrompt />
       <div
         className="app-scroll"
         ref={scrollRef}
@@ -275,7 +276,6 @@ function App() {
       </div>
 
       {/* 모바일 — 연필 FAB + 접히는 입력 패널 */}
-      <InstallHint />
       <AddScheduleFab
         onClick={openAddForm}
         disabled={!selectedDate}

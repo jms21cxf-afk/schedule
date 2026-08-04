@@ -1,0 +1,173 @@
+/* 바로가기 진입 버튼 — 화면 우측 상단 고정 */
+.install-entry-btn {
+  position: fixed;
+  top: calc(10px + env(safe-area-inset-top, 0px));
+  right: calc(10px + env(safe-area-inset-right, 0px));
+  z-index: 500;
+  border: 1px solid #888;
+  background: #fff;
+  color: #222;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.install-entry-btn:hover {
+  background: #f5f5f5;
+}
+
+.install-entry-btn:active {
+  transform: scale(0.97);
+}
+
+/* 첫 방문 배너 */
+.install-banner {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  z-index: 200;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.install-banner-title {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.install-banner-text {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #444;
+}
+
+.install-banner-close {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.app.form-open .install-banner {
+  display: none;
+}
+
+/* 설치 안내 시트 */
+.install-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+.install-sheet {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.install-sheet-title {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.install-sheet-sub {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.install-sheet-steps {
+  margin: 0 0 14px;
+}
+
+.install-sheet-steps ol {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #444;
+}
+
+.install-sheet-primary {
+  display: block;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #333;
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.install-sheet-note {
+  margin: 0 0 14px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #666;
+}
+
+.install-sheet-warn {
+  padding: 10px 12px;
+  background: #fff8e1;
+  border-radius: 8px;
+  color: #5d4037;
+}
+
+.install-sheet-warn code {
+  font-size: 0.78rem;
+}
+
+.install-sheet-tip {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #444;
+}
+
+.install-sheet-close {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+@media (min-width: 769px) {
+  .install-sheet-backdrop {
+    align-items: center;
+  }
+}

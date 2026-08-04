@@ -1,6 +1,7 @@
 {
   "name": "일정",
   "short_name": "일정",
+  "id": "/",
   "description": "일정 관리 앱",
   "start_url": "/",
   "scope": "/",
@@ -27,6 +28,21 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "오늘 일정",
+      "short_name": "오늘",
+      "description": "오늘 일정 보기",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }
