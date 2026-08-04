@@ -1,4 +1,4 @@
-// PWA — 바로가기 버튼·설치 안내 시트
+// PWA — 설치 버튼·Chrome 메뉴 안내
 import { useState } from 'react';
 import { useMobileLayout } from '../hooks/useMobileLayout';
 import { usePwaInstall } from '../hooks/usePwaInstall';
@@ -8,8 +8,14 @@ const BANNER_KEY = 'schedule-install-hint-dismissed';
 
 export default function InstallPrompt() {
   const isMobile = useMobileLayout();
-  const { platform, isSecure, canNativeInstall, promptInstall, showInstallUi } =
-    usePwaInstall();
+  const {
+    platform,
+    isSecure,
+    swReady,
+    canNativeInstall,
+    promptInstall,
+    showInstallUi,
+  } = usePwaInstall();
   const [sheetOpen, setSheetOpen] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(
     () => localStorage.getItem(BANNER_KEY) === '1'
@@ -22,6 +28,15 @@ export default function InstallPrompt() {
     setBannerDismissed(true);
   }
 
+  async function handleEntryClick() {
+    if (canNativeInstall) {
+      const accepted = await promptInstall();
+      if (!accepted) setSheetOpen(true);
+      return;
+    }
+    setSheetOpen(true);
+  }
+
   async function handleNativeInstall() {
     const accepted = await promptInstall();
     if (accepted) setSheetOpen(false);
@@ -29,22 +44,21 @@ export default function InstallPrompt() {
 
   return (
     <>
-      {/* 화면 우측 상단 고정 — 스크롤·레이아웃과 무관하게 항상 표시 */}
       <button
         type="button"
-        className="install-entry-btn"
-        onClick={() => setSheetOpen(true)}
-        aria-label="앱 설치 및 바로가기"
+        className={`install-entry-btn${canNativeInstall ? ' install-entry-btn-primary' : ''}`}
+        onClick={handleEntryClick}
+        aria-label={canNativeInstall ? '앱 설치' : '홈 화면 바로가기 안내'}
       >
-        ⊕ 바로가기
+        {canNativeInstall ? '⬇ 앱 설치' : '⊕ 바로가기'}
       </button>
 
-      {/* 첫 방문 배너 — 모바일만 */}
-      {isMobile && !bannerDismissed && !sheetOpen && (
+      {isMobile && !bannerDismissed && !sheetOpen && !canNativeInstall && (
         <aside className="install-banner" aria-label="홈 화면 추가 안내">
           <p className="install-banner-title">홈 화면에 추가</p>
           <p className="install-banner-text">
-            <strong>바로가기</strong> 버튼을 누르면 설치 방법을 볼 수 있어요.
+            <strong>⊕ 바로가기</strong> → Chrome 메뉴에서{' '}
+            <strong>바로가기 만들기</strong>를 찾으세요.
           </p>
           <button type="button" className="install-banner-close" onClick={dismissBanner}>
             닫기
@@ -66,14 +80,13 @@ export default function InstallPrompt() {
             onClick={(event) => event.stopPropagation()}
           >
             <h2 id="install-sheet-title" className="install-sheet-title">
-              앱 설치 · 바로가기
+              홈 화면 바로가기
             </h2>
 
             {!isSecure && (
               <p className="install-sheet-note install-sheet-warn">
-                Wi‑Fi IP(<code>http://192…</code>)로는 설치가 안 됩니다.
-                <br />
-                <strong>Vercel HTTPS 주소</strong>로 접속해 주세요.
+                Wi‑Fi IP 주소(<code>http://192…</code>)로는 설치가 안 됩니다.
+                Vercel HTTPS 주소로 접속해 주세요.
               </p>
             )}
 
@@ -85,6 +98,42 @@ export default function InstallPrompt() {
               >
                 앱 설치
               </button>
+            )}
+
+            {platform === 'android' && isSecure && (
+              <div className="install-sheet-steps">
+                <p className="install-sheet-sub">Android Chrome — 이렇게 하세요</p>
+                <ol>
+                  <li>
+                    주소창 오른쪽 <strong>⋮</strong>(점 3개) 탭
+                  </li>
+                  <li>
+                    <strong>메뉴를 아래로 스크롤</strong> (맨 위 다운로드 아이콘은
+                    무시)
+                  </li>
+                  <li>
+                    <strong>바로가기 만들기</strong> 또는{' '}
+                    <strong>홈 화면에 추가</strong> 탭
+                    <br />
+                    <span className="install-sheet-hint">
+                      (영문: Install and create shortcut)
+                    </span>
+                  </li>
+                  <li>
+                    이름 확인 후 <strong>추가</strong>
+                  </li>
+                </ol>
+                <p className="install-sheet-tip install-sheet-warn">
+                  ⋮ 맨 위 <strong>다운로드 ↓</strong> 아이콘은 페이지 저장입니다.
+                  바로가기가 아니에요.
+                </p>
+                {!swReady && (
+                  <p className="install-sheet-tip">
+                    설치 메뉴가 안 보이면 페이지를 <strong>새로고침</strong>한 뒤
+                    다시 시도해 주세요.
+                  </p>
+                )}
+              </div>
             )}
 
             {platform === 'ios' && (
@@ -104,47 +153,15 @@ export default function InstallPrompt() {
               </div>
             )}
 
-            {platform === 'android' && (
+            {platform === 'desktop' && (
               <div className="install-sheet-steps">
-                <p className="install-sheet-sub">Android (Chrome 권장)</p>
+                <p className="install-sheet-sub">PC Chrome · Edge</p>
                 <ol>
-                  {canNativeInstall && isSecure ? (
-                    <li>
-                      위 <strong>앱 설치</strong> 버튼을 누르세요
-                    </li>
-                  ) : (
-                    <>
-                      <li>
-                        <strong>Chrome</strong> 브라우저에서 이 페이지를 여세요
-                        (카톡·인스타 안에서는 안 됨)
-                      </li>
-                      <li>
-                        우측 상단 <strong>⋮</strong> →{' '}
-                        <strong>홈 화면에 추가</strong> 또는 <strong>앱 설치</strong>
-                      </li>
-                    </>
-                  )}
-                </ol>
-                <p className="install-sheet-tip">
-                  ⋮ 메뉴에 <strong>다운로드</strong>만 보이면 바로가기가 아닙니다.
-                  Chrome으로 다시 열어 주세요.
-                </p>
-              </div>
-            )}
-
-            {platform === 'desktop' && !canNativeInstall && (
-              <div className="install-sheet-steps">
-                <p className="install-sheet-sub">PC (Chrome · Edge)</p>
-                <ol>
-                  <li>주소창 오른쪽 <strong>설치</strong> 아이콘 클릭</li>
-                  <li>또는 메뉴 → <strong>앱 설치</strong></li>
+                  <li>주소창 오른쪽 <strong>⊕ 설치</strong> 아이콘 클릭</li>
+                  <li>없으면 ⋮ → <strong>앱 설치</strong> 또는 <strong>바로가기 만들기</strong></li>
                 </ol>
               </div>
             )}
-
-            <p className="install-sheet-note">
-              설치 후 홈 화면에서 캘린더 아이콘으로 바로 열 수 있어요.
-            </p>
 
             <button
               type="button"

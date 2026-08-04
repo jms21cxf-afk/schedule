@@ -24,6 +24,16 @@
   transform: scale(0.97);
 }
 
+.install-entry-btn-primary {
+  border-color: #222;
+  background: #222;
+  color: #fff;
+}
+
+.install-entry-btn-primary:hover {
+  background: #333;
+}
+
 /* 첫 방문 배너 */
 .install-banner {
   position: fixed;
@@ -143,6 +153,11 @@
 
 .install-sheet-warn code {
   font-size: 0.78rem;
+}
+
+.install-sheet-hint {
+  font-size: 0.78rem;
+  color: #777;
 }
 
 .install-sheet-tip {

@@ -1,4 +1,4 @@
-// PWA 설치 — beforeinstallprompt·플랫폼·standalone 감지
+// PWA 설치 — beforeinstallprompt·서비스워커·플랫폼 감지
 import { useCallback, useEffect, useState } from 'react';
 
 type BeforeInstallPromptEvent = Event & {
@@ -8,7 +8,6 @@ type BeforeInstallPromptEvent = Event & {
 
 export type InstallPlatform = 'ios' | 'android' | 'desktop' | 'unknown';
 
-/** iOS / Android / PC 구분 */
 function detectPlatform(): InstallPlatform {
   const ua = navigator.userAgent;
   if (/iPad|iPhone|iPod/.test(ua)) return 'ios';
@@ -17,7 +16,6 @@ function detectPlatform(): InstallPlatform {
   return 'desktop';
 }
 
-/** 홈 화면에서 앱처럼 실행 중인지 */
 export function isStandaloneMode() {
   return (
     window.matchMedia('(display-mode: standalone)').matches ||
@@ -29,6 +27,7 @@ export function usePwaInstall() {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [canNativeInstall, setCanNativeInstall] = useState(false);
+  const [swReady, setSwReady] = useState(false);
   const platform = detectPlatform();
   const isStandalone = isStandaloneMode();
   const isSecure = window.isSecureContext;
@@ -45,6 +44,15 @@ export function usePwaInstall() {
       window.removeEventListener('beforeinstallprompt', onBeforeInstall);
   }, []);
 
+  // 서비스 워커 등록 여부 — Chrome 설치 조건
+  useEffect(() => {
+    if (!('serviceWorker' in navigator)) return;
+
+    navigator.serviceWorker.ready
+      .then(() => setSwReady(true))
+      .catch(() => setSwReady(false));
+  }, []);
+
   const promptInstall = useCallback(async () => {
     if (!deferredPrompt) return false;
 
@@ -59,6 +67,7 @@ export function usePwaInstall() {
     platform,
     isStandalone,
     isSecure,
+    swReady,
     canNativeInstall,
     promptInstall,
     showInstallUi: !isStandalone,

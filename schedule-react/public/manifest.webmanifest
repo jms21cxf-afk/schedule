@@ -10,6 +10,7 @@
   "theme_color": "#ffffff",
   "orientation": "portrait-primary",
   "lang": "ko",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/icon-192.png",
