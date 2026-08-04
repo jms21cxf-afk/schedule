@@ -6,6 +6,16 @@ import type { RepeatType, ScheduleFormData } from '../types/schedule';
 
 import { COLOR_OPTIONS } from '../types/schedule';
 
+import type { ScheduleIconType } from '../types/scheduleIcon';
+
+import {
+  SCHEDULE_ICON_OPTIONS,
+  getScheduleIconEmoji,
+  getScheduleIconImage,
+  getScheduleIconLabel,
+  hasScheduleIcon,
+} from '../types/scheduleIcon';
+
 import {
 
   createDefaultRepeatConfig,
@@ -88,7 +98,15 @@ export default function ScheduleForm({
 
   );
 
+  const [icon, setIcon] = useState<ScheduleIconType>(
+
+    initialValues?.icon ?? 'none'
+
+  );
+
   const [showRepeat, setShowRepeat] = useState(false);
+
+  const [showIcon, setShowIcon] = useState(false);
 
   const [showColor, setShowColor] = useState(false);
 
@@ -152,6 +170,8 @@ export default function ScheduleForm({
 
       color,
 
+      icon,
+
       repeatConfig:
 
         repeat === 'none'
@@ -178,7 +198,11 @@ export default function ScheduleForm({
 
         setColor(COLOR_OPTIONS[0]);
 
+        setIcon('none');
+
         setShowRepeat(false);
+
+        setShowIcon(false);
 
         setShowColor(false);
 
@@ -245,6 +269,90 @@ export default function ScheduleForm({
         disabled={submitting}
 
       />
+
+
+
+      {/* 아이콘 선택 — 제목 앞 emoji */}
+
+      <button
+
+        type="button"
+
+        className="schedule-form-row"
+
+        onClick={() => setShowIcon((prev) => !prev)}
+
+      >
+
+        <span>아이콘</span>
+
+        <span className="row-value">
+
+          {hasScheduleIcon(icon) && (
+            getScheduleIconImage(icon) ? (
+              <img
+                src={getScheduleIconImage(icon)}
+                alt=""
+                className="icon-preview-img"
+              />
+            ) : (
+              <span className="icon-preview">{getScheduleIconEmoji(icon)}</span>
+            )
+          )}
+
+          {getScheduleIconLabel(icon)} &gt;
+
+        </span>
+
+      </button>
+
+      {showIcon && (
+
+        <div className="schedule-form-options">
+
+          <p className="options-label">아이콘</p>
+
+          <div className="icon-options">
+
+            {SCHEDULE_ICON_OPTIONS.map((opt) => (
+
+              <button
+
+                key={opt.value}
+
+                type="button"
+
+                className={`icon-chip${icon === opt.value ? ' active' : ''}`}
+
+                onClick={() => setIcon(opt.value)}
+
+                aria-label={opt.label}
+
+              >
+
+                <span className="icon-chip-emoji">
+
+                  {opt.value === 'none' ? (
+                    '—'
+                  ) : opt.image ? (
+                    <img src={opt.image} alt="" className="icon-chip-img" />
+                  ) : (
+                    opt.emoji
+                  )}
+
+                </span>
+
+                <span className="icon-chip-label">{opt.label}</span>
+
+              </button>
+
+            ))}
+
+          </div>
+
+        </div>
+
+      )}
 
 
 

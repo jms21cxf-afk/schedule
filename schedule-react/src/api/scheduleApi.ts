@@ -33,6 +33,7 @@ export async function createSchedule(
       repeat: form.repeat,
       repeatConfig: form.repeatConfig,
       color: form.color,
+      icon: form.icon,
     }),
   });
 
@@ -59,6 +60,7 @@ export async function updateSchedule(
       repeat: form.repeat,
       repeatConfig: form.repeatConfig,
       color: form.color,
+      icon: form.icon,
     }),
   });
 

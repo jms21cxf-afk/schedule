@@ -40,6 +40,23 @@ const scheduleSchema = new mongoose.Schema(
       type: String,
       default: '#333333',
     },
+    // 일정 아이콘 — none이면 표시 안 함
+    icon: {
+      type: String,
+      enum: [
+        'none',
+        'birthday',
+        'important',
+        'work',
+        'meeting',
+        'health',
+        'travel',
+        'shopping',
+        'study',
+        'reminder',
+      ],
+      default: 'none',
+    },
   },
   {
     timestamps: true,

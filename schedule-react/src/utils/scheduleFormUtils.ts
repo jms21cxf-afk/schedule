@@ -1,6 +1,7 @@
 // Schedule → 폼 초기값 변환
 import type { Schedule, ScheduleFormData } from '../types/schedule';
 import { COLOR_OPTIONS } from '../types/schedule';
+import type { ScheduleIconType } from '../types/scheduleIcon';
 import type { RepeatConfig } from '../types/repeat';
 import { formatDateKey, parseScheduleDate } from './dateUtils';
 
@@ -33,6 +34,7 @@ export function scheduleToFormData(schedule: Schedule): ScheduleFormData {
     repeat,
     repeatConfig: mapRepeatConfig(schedule.repeatConfig),
     color: schedule.color ?? COLOR_OPTIONS[0],
+    icon: (schedule.icon ?? 'none') as ScheduleIconType,
   };
 }
 

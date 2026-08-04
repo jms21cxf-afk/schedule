@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
 // POST /api/schedules — 일정 생성
 router.post('/', async (req, res) => {
   try {
-    const { title, date, repeat = 'none', repeatConfig, color = '#333333' } = req.body;
+    const { title, date, repeat = 'none', repeatConfig, color = '#333333', icon = 'none' } = req.body;
 
     if (!title?.trim()) {
       return res.status(400).json({ message: '일정 제목은 필수입니다.' });
@@ -60,6 +60,7 @@ router.post('/', async (req, res) => {
       repeat,
       repeatConfig: normalizeRepeatConfig(repeat, repeatConfig),
       color,
+      icon,
     });
 
     res.status(201).json(schedule);
@@ -85,7 +86,7 @@ router.patch('/:id', async (req, res) => {
       return res.status(404).json({ message: '일정을 찾을 수 없습니다.' });
     }
 
-    const { title, date, repeat, repeatConfig, color } = req.body;
+    const { title, date, repeat, repeatConfig, color, icon } = req.body;
 
     if (title !== undefined) {
       if (!title?.trim()) {
@@ -116,6 +117,7 @@ router.patch('/:id', async (req, res) => {
       );
     }
     if (color !== undefined) schedule.color = color;
+    if (icon !== undefined) schedule.icon = icon;
 
     await schedule.save();
     res.json(schedule);

@@ -1,5 +1,6 @@
 // 일정 타입·폼 옵션 정의
 import type { RepeatConfig } from './repeat';
+import type { ScheduleIconType } from './scheduleIcon';
 
 export type RepeatType = 'none' | 'daily' | 'weekly' | 'monthly' | 'yearly';
 
@@ -12,6 +13,7 @@ export interface Schedule {
   repeat?: RepeatType;
   repeatConfig?: RepeatConfig;
   color?: string;
+  icon?: ScheduleIconType;
   createdAt: string;
   updatedAt: string;
 }
@@ -21,6 +23,7 @@ export interface ScheduleFormData {
   repeat: RepeatType;
   repeatConfig?: RepeatConfig;
   color: string;
+  icon: ScheduleIconType;
 }
 
 export const REPEAT_OPTIONS: { value: RepeatType; label: string }[] = [

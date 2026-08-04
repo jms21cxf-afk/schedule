@@ -19,7 +19,7 @@ async function writeMaskable512() {
       width: 512,
       height: 512,
       channels: 4,
-      background: { r: 255, g: 255, b: 255, alpha: 1 },
+      background: { r: 10, g: 10, b: 10, alpha: 1 },
     },
   })
     .composite([{ input: resized, left: Math.round(padding), top: Math.round(padding) }])

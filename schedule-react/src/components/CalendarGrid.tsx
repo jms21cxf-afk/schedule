@@ -1,5 +1,7 @@
 // 캘린더 그리드 — 요일·날짜·셀 안 일정 표시
 import { WEEKDAYS, buildCalendarCells, isSameDay } from '../utils/dateUtils';
+import { getHolidayName } from '../utils/koreanHolidays';
+import ScheduleIconMark from './ScheduleIconMark';
 import type { Schedule } from '../types/schedule';
 import './CalendarGrid.css';
 
@@ -25,8 +27,13 @@ export default function CalendarGrid({
   const today = new Date();
   const totalRows = Math.ceil(cells.length / 7);
 
-  /** 날짜 색상 클래스 — 오늘 > 일요일/토요일 */
-  function getDayNumClass(cellDate: Date, isToday: boolean): string {
+  /** 날짜 색상 — 공휴일 > 오늘 > 주말 */
+  function getDayNumClass(
+    cellDate: Date,
+    isToday: boolean,
+    holidayName: string | null
+  ): string {
+    if (holidayName) return 'holiday';
     if (isToday) return 'today';
     const weekday = cellDate.getDay();
     if (weekday === 0) return 'sunday';
@@ -60,10 +67,11 @@ export default function CalendarGrid({
               }
 
               const cellDate = new Date(year, month - 1, day);
+              const holidayName = getHolidayName(cellDate);
               const isSelected =
                 selectedDate !== null && isSameDay(cellDate, selectedDate);
               const isToday = isSameDay(cellDate, today);
-              const dayNumClass = getDayNumClass(cellDate, isToday);
+              const dayNumClass = getDayNumClass(cellDate, isToday, holidayName);
               const daySchedules = schedulesByDay.get(day) ?? [];
 
               return (
@@ -79,6 +87,11 @@ export default function CalendarGrid({
                         <span className="today-label">오늘</span>
                       )}
                     </div>
+                    {!compact && holidayName && (
+                      <span className="holiday-label" title={holidayName}>
+                        {holidayName}
+                      </span>
+                    )}
                     {/* 접힌 상태에서는 셀 안 일정 숨김 — 아래 목록에서 표시 */}
                     {!compact && daySchedules.length > 0 && (
                       <ul className="day-schedules">
@@ -88,7 +101,8 @@ export default function CalendarGrid({
                             className="day-schedule-item"
                             style={{ color: schedule.color ?? '#333' }}
                           >
-                            {schedule.title}
+                            <ScheduleIconMark icon={schedule.icon} />
+                            <span className="day-schedule-title">{schedule.title}</span>
                           </li>
                         ))}
                       </ul>

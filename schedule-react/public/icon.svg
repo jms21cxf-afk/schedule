@@ -1,8 +1,105 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="108" fill="#ffffff"/>
-  <rect x="72" y="96" width="368" height="344" rx="32" fill="none" stroke="#333" stroke-width="20"/>
-  <line x1="72" y1="176" x2="440" y2="176" stroke="#e0e0e0" stroke-width="16"/>
-  <line x1="160" y1="72" x2="160" y2="128" stroke="#333" stroke-width="20" stroke-linecap="round"/>
-  <line x1="352" y1="72" x2="352" y2="128" stroke="#333" stroke-width="20" stroke-linecap="round"/>
-  <text x="256" y="300" text-anchor="middle" font-family="system-ui,sans-serif" font-size="120" font-weight="600" fill="#333">31</text>
+  <defs>
+    <!-- 회색 네온 글로우 -->
+    <filter id="grayNeon" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="glow" />
+      <feMerge>
+        <feMergeNode in="glow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <!-- 검정 네온(어두운 외곽 글로우) -->
+    <filter id="blackNeon" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="glow" />
+      <feColorMatrix
+        in="glow"
+        type="matrix"
+        values="0 0 0 0 0.15
+                0 0 0 0 0.15
+                0 0 0 0 0.15
+                0 0 0 0.9 0"
+        result="darkGlow"
+      />
+      <feMerge>
+        <feMergeNode in="darkGlow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="512" height="512" rx="108" fill="#0a0a0a" />
+
+  <!-- 검정 네온 외곽 -->
+  <rect
+    x="56"
+    y="80"
+    width="400"
+    height="376"
+    rx="40"
+    fill="none"
+    stroke="#2a2a2a"
+    stroke-width="44"
+    filter="url(#blackNeon)"
+  />
+
+  <!-- 회색 네온 캘린더 테두리 -->
+  <rect
+    x="56"
+    y="80"
+    width="400"
+    height="376"
+    rx="40"
+    fill="#111111"
+    stroke="#d1d5db"
+    stroke-width="28"
+    filter="url(#grayNeon)"
+  />
+
+  <!-- 헤더 구분선 -->
+  <line
+    x1="56"
+    y1="168"
+    x2="456"
+    y2="168"
+    stroke="#9ca3af"
+    stroke-width="24"
+    filter="url(#grayNeon)"
+  />
+
+  <!-- 고리 — 굵게 -->
+  <line
+    x1="148"
+    y1="48"
+    x2="148"
+    y2="120"
+    stroke="#e5e7eb"
+    stroke-width="32"
+    stroke-linecap="round"
+    filter="url(#grayNeon)"
+  />
+  <line
+    x1="364"
+    y1="48"
+    x2="364"
+    y2="120"
+    stroke="#e5e7eb"
+    stroke-width="32"
+    stroke-linecap="round"
+    filter="url(#grayNeon)"
+  />
+
+  <!-- 날짜 숫자 — 굵은 회색 네온 -->
+  <text
+    x="256"
+    y="310"
+    text-anchor="middle"
+    font-family="system-ui, sans-serif"
+    font-size="132"
+    font-weight="800"
+    fill="#f3f4f6"
+    filter="url(#grayNeon)"
+  >
+    31
+  </text>
 </svg>

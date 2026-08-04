@@ -4,6 +4,7 @@ import { formatSelectedLabel } from '../utils/dateUtils';
 import { scheduleToFormData } from '../utils/scheduleFormUtils';
 import { useDayWeather } from '../hooks/useDayWeather';
 import WeatherHint from './WeatherHint';
+import ScheduleIconMark from './ScheduleIconMark';
 import ScheduleForm from './ScheduleForm';
 import './SchedulePanel.css';
 
@@ -52,7 +53,8 @@ export default function SchedulePanel({
                 style={{ color: schedule.color ?? '#333' }}
                 onClick={() => onEdit(schedule)}
               >
-                {schedule.title}
+                <ScheduleIconMark icon={schedule.icon} />
+                <span className="schedule-item-title">{schedule.title}</span>
               </button>
             </li>
           ))
