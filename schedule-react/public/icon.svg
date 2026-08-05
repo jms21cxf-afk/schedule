@@ -1,59 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- 흰 배경 -->
-  <rect width="512" height="512" rx="108" fill="#ffffff" />
-
-  <!-- 검정 캘린더 테두리 — 원래 형태, 선만 굵게 -->
-  <rect
-    x="72"
-    y="96"
-    width="368"
-    height="344"
-    rx="32"
-    fill="none"
-    stroke="#333333"
-    stroke-width="28"
-  />
-
-  <!-- 회색 헤더 구분선 -->
-  <line
-    x1="72"
-    y1="176"
-    x2="440"
-    y2="176"
-    stroke="#bdbdbd"
-    stroke-width="22"
-  />
-
-  <!-- 고리 -->
-  <line
-    x1="160"
-    y1="72"
-    x2="160"
-    y2="128"
-    stroke="#333333"
-    stroke-width="28"
-    stroke-linecap="round"
-  />
-  <line
-    x1="352"
-    y1="72"
-    x2="352"
-    y2="128"
-    stroke="#333333"
-    stroke-width="28"
-    stroke-linecap="round"
-  />
-
-  <!-- 날짜 숫자 -->
-  <text
-    x="256"
-    y="300"
-    text-anchor="middle"
-    font-family="system-ui, sans-serif"
-    font-size="120"
-    font-weight="700"
-    fill="#333333"
-  >
-    31
-  </text>
+  <rect width="512" height="512" rx="108" fill="#ffffff"/>
+  <rect x="72" y="96" width="368" height="344" rx="32" fill="none" stroke="#333" stroke-width="20"/>
+  <line x1="72" y1="176" x2="440" y2="176" stroke="#e0e0e0" stroke-width="16"/>
+  <line x1="160" y1="72" x2="160" y2="128" stroke="#333" stroke-width="20" stroke-linecap="round"/>
+  <line x1="352" y1="72" x2="352" y2="128" stroke="#333" stroke-width="20" stroke-linecap="round"/>
+  <text x="256" y="300" text-anchor="middle" font-family="system-ui,sans-serif" font-size="120" font-weight="600" fill="#333">31</text>
 </svg>

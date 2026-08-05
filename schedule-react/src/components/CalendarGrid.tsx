@@ -1,6 +1,6 @@
-// 캘린더 그리드 — 요일·날짜·셀 안 일정 표시
+// 캘린더 그리드 — 요일·날짜·셀 안 일정·공휴일·분류 아이콘 표시
 import { WEEKDAYS, buildCalendarCells, isSameDay } from '../utils/dateUtils';
-import { getHolidayName } from '../utils/koreanHolidays';
+import { getKoreanHoliday } from '../utils/koreanHolidays';
 import ScheduleIconMark from './ScheduleIconMark';
 import type { Schedule } from '../types/schedule';
 import './CalendarGrid.css';
@@ -27,15 +27,17 @@ export default function CalendarGrid({
   const today = new Date();
   const totalRows = Math.ceil(cells.length / 7);
 
-  /** 날짜 색상 — 공휴일은 일요일과 동일 빨강, 오늘 > 주말 */
+  /** 날짜 색상 — 오늘 > 공휴일(일요일과 동일 빨강) > 주말 */
   function getDayNumClass(
     cellDate: Date,
     isToday: boolean,
-    holidayName: string | null
+    isHoliday: boolean
   ): string {
     if (isToday) return 'today';
-    if (holidayName || cellDate.getDay() === 0) return 'sunday';
-    if (cellDate.getDay() === 6) return 'saturday';
+    if (isHoliday) return 'sunday';
+    const weekday = cellDate.getDay();
+    if (weekday === 0) return 'sunday';
+    if (weekday === 6) return 'saturday';
     return '';
   }
 
@@ -65,24 +67,19 @@ export default function CalendarGrid({
               }
 
               const cellDate = new Date(year, month - 1, day);
-              const holidayName = getHolidayName(cellDate);
+              const holidayName = getKoreanHoliday(year, month, day);
+              const isHoliday = holidayName !== null;
               const isSelected =
                 selectedDate !== null && isSameDay(cellDate, selectedDate);
               const isToday = isSameDay(cellDate, today);
-              const dayNumClass = getDayNumClass(cellDate, isToday, holidayName);
+              const dayNumClass = getDayNumClass(cellDate, isToday, isHoliday);
               const daySchedules = schedulesByDay.get(day) ?? [];
 
               return (
                 <td key={cellKey}>
                   <button
                     type="button"
-                    className={`day-btn${isSelected ? ' selected' : ''}${
-                      dayNumClass === 'sunday'
-                        ? ' sunday'
-                        : dayNumClass === 'saturday'
-                          ? ' saturday'
-                          : ''
-                    }`}
+                    className={`day-btn${isSelected ? ' selected' : ''}`}
                     onClick={() => onSelectDay(day)}
                   >
                     <div className="day-num-row">
@@ -91,8 +88,11 @@ export default function CalendarGrid({
                         <span className="today-label">오늘</span>
                       )}
                     </div>
-                    {!compact && holidayName && (
-                      <span className="holiday-label" title={holidayName}>
+                    {holidayName && (
+                      <span
+                        className={`day-holiday-label${isToday ? ' is-today' : ''}`}
+                        title={holidayName}
+                      >
                         {holidayName}
                       </span>
                     )}

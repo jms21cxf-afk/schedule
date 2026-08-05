@@ -1,0 +1,46 @@
+.install-hint {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 200;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.install-hint-title {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.install-hint-text {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #444;
+}
+
+.install-hint-close {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+/* FAB와 겹치지 않게 — FAB 위쪽 */
+@media (max-width: 768px) {
+  .install-hint {
+    bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .app.form-open .install-hint {
+    display: none;
+  }
+}
