@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useMobileLayout } from '../hooks/useMobileLayout';
 import { usePwaInstall } from '../hooks/usePwaInstall';
-import { DEPLOY_URL, isLocalDevUrl } from '../utils/installUtils';
+import { DEPLOY_URL, isLocalDevUrl, isDeployUrl, WRONG_URL_EXAMPLES } from '../utils/installUtils';
 import './InstallPrompt.css';
 
 const BANNER_KEY = 'schedule-install-hint-dismissed';
@@ -23,8 +23,10 @@ export default function InstallPrompt() {
   );
 
   const isLocal = isLocalDevUrl();
+  const onDeploy = isDeployUrl();
   const currentHost = window.location.hostname;
   const deployHost = DEPLOY_URL.replace('https://', '');
+  const onWrongVercel = WRONG_URL_EXAMPLES.includes(currentHost);
 
   if (!showInstallUi) return null;
 
@@ -110,7 +112,43 @@ export default function InstallPrompt() {
 
             <p className="install-sheet-url">
               지금 주소: <strong>{currentHost}</strong>
+              {onDeploy && ' ✅ 맞는 주소'}
+              {onWrongVercel && ' ❌ 다른 사람 앱'}
             </p>
+
+            <div className="install-sheet-callout install-sheet-callout-ok">
+              <p className="install-sheet-callout-title">내 일정 앱 주소 (전부 입력)</p>
+              <p className="install-sheet-callout-text install-sheet-exact-url">
+                {deployHost}
+              </p>
+              <p className="install-sheet-callout-text">
+                <strong>schedule</strong>가 <strong>두 번</strong> (
+                schedule-<strong>schedule</strong>-react).{' '}
+                <strong>schedule-react</strong>만 있으면 다른 사이트입니다.
+              </p>
+              <a className="install-sheet-link" href={DEPLOY_URL}>
+                이 주소로 열기 →
+              </a>
+              <button
+                type="button"
+                className="install-sheet-copy"
+                onClick={copyDeployUrl}
+              >
+                {copied ? '복사됨!' : '주소 복사'}
+              </button>
+            </div>
+
+            {onWrongVercel && (
+              <div className="install-sheet-callout install-sheet-callout-danger">
+                <p className="install-sheet-callout-title">
+                  지금 주소는 내 앱이 아닙니다
+                </p>
+                <p className="install-sheet-callout-text">
+                  <strong>{currentHost}</strong>는 다른 사람 일정/스케줄
+                  사이트예요. 위 <strong>{deployHost}</strong>로 다시 접속하세요.
+                </p>
+              </div>
+            )}
 
             <div className="install-sheet-callout">
               <p className="install-sheet-callout-title">
@@ -123,35 +161,25 @@ export default function InstallPrompt() {
               </p>
             </div>
 
-            {(isLocal || currentHost !== deployHost) && (
+            {(isLocal || (!onDeploy && !onWrongVercel)) && (
               <div className="install-sheet-callout install-sheet-callout-danger">
                 <p className="install-sheet-callout-title">
-                  주소창 — vercel.app 줄을 탭하세요
+                  {isLocal ? '로컬 주소 — 홈 화면 추가 불가' : '배포 주소가 아닙니다'}
                 </p>
                 <p className="install-sheet-callout-text">
-                  <strong>schedule</strong> 입력하면 제목(일정·schedule-react 등)과
-                  주소가 <strong>두 줄</strong>로 나옵니다.
-                  <br />
-                  <strong>{deployHost}</strong> 또는{' '}
-                  <strong>vercel.app</strong>이 보이는 줄을 탭하세요.
-                  <br />
-                  <strong>172.30…</strong> 줄은 PC 개발용이라 홈 화면 추가가
-                  안 됩니다.
+                  {isLocal ? (
+                    <>
+                      <strong>172…</strong>는 PC 개발용입니다. 아래 정확한 주소로
+                      접속하세요.
+                    </>
+                  ) : (
+                    <>주소창에 아래 주소를 <strong>전부</strong> 입력하세요.</>
+                  )}
                 </p>
-                <a className="install-sheet-link" href={DEPLOY_URL}>
-                  {deployHost} 로 열기 →
-                </a>
-                <button
-                  type="button"
-                  className="install-sheet-copy"
-                  onClick={copyDeployUrl}
-                >
-                  {copied ? '복사됨!' : '주소 복사'}
-                </button>
               </div>
             )}
 
-            {canNativeInstall && !isLocal && (
+            {canNativeInstall && onDeploy && (
               <button
                 type="button"
                 className="install-sheet-primary"
@@ -167,15 +195,14 @@ export default function InstallPrompt() {
                   <p className="install-sheet-sub">① ⋮ 메뉴 (가장 흔함)</p>
                   <ol>
                     <li>
-                      주소창에 <strong>schedule</strong> 입력
-                    </li>
-                    <li>
-                      목록에서 <strong>vercel.app</strong> 주소 탭
+                      주소창에 아래 주소 <strong>전부</strong> 입력 후 이동
                       <br />
                       <span className="install-sheet-hint">
-                        (위 줄 제목은 무시, 아래 URL이{' '}
-                        <strong>{deployHost}</strong> 인 것)
+                        <strong>{deployHost}</strong>
                       </span>
+                    </li>
+                    <li>
+                      달력·「일정」 제목이 보이면 맞는 사이트
                     </li>
                     <li>
                       주소창 오른쪽 <strong>⋮</strong> 탭

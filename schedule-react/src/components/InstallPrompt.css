@@ -111,6 +111,22 @@
   color: #c62828;
 }
 
+.install-sheet-callout-ok {
+  background: #e8f5e9;
+  border-color: #a5d6a7;
+}
+
+.install-sheet-callout-ok .install-sheet-callout-title {
+  color: #2e7d32;
+}
+
+.install-sheet-exact-url {
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  word-break: break-all;
+  color: #1565c0 !important;
+}
+
 .install-sheet-link {
   display: inline-block;
   margin-top: 8px;
