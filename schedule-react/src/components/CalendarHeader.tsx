@@ -1,4 +1,4 @@
-// 캘린더 월 이동 헤더 — ◀ 2026.7 ▶
+// 캘린더 월 이동 헤더 — ‹ 2026.7 ›
 import { formatMonthLabel } from '../utils/dateUtils';
 import './CalendarHeader.css';
 
@@ -9,22 +9,24 @@ interface CalendarHeaderProps {
   onNext: () => void;
 }
 
-/** 가로로 긴 채워진 삼각형 — 꼭짓점만 Q 곡선으로 부드럽게 */
-function NavArrow({ direction }: { direction: 'prev' | 'next' }) {
-  const path =
-    direction === 'prev'
-      ? 'M22 4 L22 20 L9 13.1 Q 1 12 9 10.9 Z'
-      : 'M2 4 L2 20 L15 13.1 Q 23 12 15 10.9 Z';
-
+/** 꺾인 괄호(chevron) — 이전·다음 달 */
+function NavChevron({ direction }: { direction: 'prev' | 'next' }) {
   return (
     <svg
-      className="nav-arrow"
+      className="nav-chevron"
       viewBox="0 0 24 24"
-      width="20"
-      height="11"
+      width="18"
+      height="18"
       aria-hidden="true"
     >
-      <path d={path} fill="currentColor" />
+      <path
+        d={direction === 'prev' ? 'M15 6 L9 12 L15 18' : 'M9 6 L15 12 L9 18'}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -38,11 +40,11 @@ export default function CalendarHeader({
   return (
     <div className="calendar-header">
       <button type="button" className="nav-btn" onClick={onPrev} aria-label="이전 달">
-        <NavArrow direction="prev" />
+        <NavChevron direction="prev" />
       </button>
       <span className="month-label">{formatMonthLabel(year, month)}</span>
       <button type="button" className="nav-btn" onClick={onNext} aria-label="다음 달">
-        <NavArrow direction="next" />
+        <NavChevron direction="next" />
       </button>
     </div>
   );
