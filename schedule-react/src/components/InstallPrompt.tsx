@@ -1,4 +1,4 @@
-// PWA — 설치 버튼·Chrome 메뉴 안내
+// PWA — 홈 화면 추가 안내 (Chrome 새 탭 ✓ 과 구분)
 import { useState } from 'react';
 import { useMobileLayout } from '../hooks/useMobileLayout';
 import { usePwaInstall } from '../hooks/usePwaInstall';
@@ -48,17 +48,17 @@ export default function InstallPrompt() {
         type="button"
         className={`install-entry-btn${canNativeInstall ? ' install-entry-btn-primary' : ''}`}
         onClick={handleEntryClick}
-        aria-label={canNativeInstall ? '앱 설치' : '홈 화면 바로가기 안내'}
+        aria-label="홈 화면에 추가"
       >
-        {canNativeInstall ? '⬇ 앱 설치' : '⊕ 바로가기'}
+        {canNativeInstall ? '⬇ 앱 설치' : '⊕ 홈 화면'}
       </button>
 
       {isMobile && !bannerDismissed && !sheetOpen && !canNativeInstall && (
         <aside className="install-banner" aria-label="홈 화면 추가 안내">
-          <p className="install-banner-title">홈 화면에 추가</p>
+          <p className="install-banner-title">폰 홈 화면에 추가</p>
           <p className="install-banner-text">
-            <strong>⊕ 바로가기</strong> → Chrome 메뉴에서{' '}
-            <strong>바로가기 만들기</strong>를 찾으세요.
+            Chrome 첫 화면 ✓ 체크 ≠ 홈 화면.{' '}
+            <strong>⊕ 홈 화면</strong> 버튼을 눌러 방법을 확인하세요.
           </p>
           <button type="button" className="install-banner-close" onClick={dismissBanner}>
             닫기
@@ -80,13 +80,26 @@ export default function InstallPrompt() {
             onClick={(event) => event.stopPropagation()}
           >
             <h2 id="install-sheet-title" className="install-sheet-title">
-              홈 화면 바로가기
+              폰 홈 화면에 추가
             </h2>
+
+            {/* Chrome 새 탭 ✓ — 사용자가 본 화면 */}
+            <div className="install-sheet-callout">
+              <p className="install-sheet-callout-title">
+                ✓ 체크 + 이름 밑줄 = Chrome 첫 화면 바로가기
+              </p>
+              <p className="install-sheet-callout-text">
+                Chrome을 열었을 때 보이는 <strong>일정·로컬·고스톱</strong>{' '}
+                아이콘 줄에서 ✓가 있으면, 그건 <strong>Chrome 안</strong>에만
+                고정된 것입니다. <strong>폰 바탕화면(홈 화면)</strong>과는
+                다릅니다.
+              </p>
+            </div>
 
             {!isSecure && (
               <p className="install-sheet-note install-sheet-warn">
-                Wi‑Fi IP 주소(<code>http://192…</code>)로는 설치가 안 됩니다.
-                Vercel HTTPS 주소로 접속해 주세요.
+                Wi‑Fi IP(<code>http://192…</code>)로는 추가가 안 됩니다. Vercel
+                HTTPS 주소로 접속해 주세요.
               </p>
             )}
 
@@ -102,35 +115,41 @@ export default function InstallPrompt() {
 
             {platform === 'android' && isSecure && (
               <div className="install-sheet-steps">
-                <p className="install-sheet-sub">Android Chrome — 이렇게 하세요</p>
+                <p className="install-sheet-sub">홈 화면에 넣는 방법</p>
                 <ol>
                   <li>
-                    주소창 오른쪽 <strong>⋮</strong>(점 3개) 탭
+                    Chrome 첫 화면에서 <strong>일정 아이콘을 탭</strong>해{' '}
+                    <strong>사이트를 연다</strong>
                   </li>
                   <li>
-                    <strong>메뉴를 아래로 스크롤</strong> (맨 위 다운로드 아이콘은
-                    무시)
+                    주소창 오른쪽 <strong>⋮</strong> 탭
                   </li>
                   <li>
+                    <strong>아래로 스크롤</strong> →{' '}
                     <strong>바로가기 만들기</strong> 또는{' '}
-                    <strong>홈 화면에 추가</strong> 탭
-                    <br />
-                    <span className="install-sheet-hint">
-                      (영문: Install and create shortcut)
-                    </span>
+                    <strong>홈 화면에 추가</strong>
                   </li>
                   <li>
-                    이름 확인 후 <strong>추가</strong>
+                    <strong>추가</strong> → 폰 홈 화면에 아이콘 생김
                   </li>
                 </ol>
                 <p className="install-sheet-tip install-sheet-warn">
-                  ⋮ 맨 위 <strong>다운로드 ↓</strong> 아이콘은 페이지 저장입니다.
-                  바로가기가 아니에요.
+                  ⋮ 맨 위 <strong>↓ 다운로드</strong>는 페이지 저장입니다.
+                </p>
+                <p className="install-sheet-tip">
+                  추가했는데 홈 화면에 없으면{' '}
+                  <strong>앱 서랍(전체 앱 목록)</strong>에서 「일정」을 찾아{' '}
+                  <strong>길게 누르기 → 홈 화면에 추가</strong>하세요.
+                </p>
+                <p className="install-sheet-tip">
+                  아이콘 왼쪽 아래에 <strong>작은 Chrome 마크</strong>가 있으면
+                  앱 설치가 아니라 바로가기입니다. Play 스토어에{' '}
+                  <strong>Google 로그인</strong> 후 다시 시도해 보세요.
                 </p>
                 {!swReady && (
                   <p className="install-sheet-tip">
-                    설치 메뉴가 안 보이면 페이지를 <strong>새로고침</strong>한 뒤
-                    다시 시도해 주세요.
+                    메뉴가 안 보이면 페이지를 <strong>새로고침</strong> 후
+                    다시 시도하세요.
                   </p>
                 )}
               </div>
@@ -141,13 +160,13 @@ export default function InstallPrompt() {
                 <p className="install-sheet-sub">iPhone · iPad (Safari)</p>
                 <ol>
                   <li>
-                    하단 <strong>공유</strong> 버튼 탭
+                    <strong>일정 사이트</strong>를 Safari에서 연다
                   </li>
                   <li>
-                    <strong>홈 화면에 추가</strong> 선택
+                    하단 <strong>공유</strong> → <strong>홈 화면에 추가</strong>
                   </li>
                   <li>
-                    <strong>추가</strong> 탭
+                    <strong>추가</strong>
                   </li>
                 </ol>
               </div>
@@ -157,8 +176,8 @@ export default function InstallPrompt() {
               <div className="install-sheet-steps">
                 <p className="install-sheet-sub">PC Chrome · Edge</p>
                 <ol>
-                  <li>주소창 오른쪽 <strong>⊕ 설치</strong> 아이콘 클릭</li>
-                  <li>없으면 ⋮ → <strong>앱 설치</strong> 또는 <strong>바로가기 만들기</strong></li>
+                  <li>주소창 오른쪽 <strong>⊕ 설치</strong> 클릭</li>
+                  <li>없으면 ⋮ → <strong>앱 설치</strong></li>
                 </ol>
               </div>
             )}

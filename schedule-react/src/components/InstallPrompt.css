@@ -103,6 +103,28 @@
   font-weight: 700;
 }
 
+.install-sheet-callout {
+  margin: 0 0 14px;
+  padding: 12px;
+  background: #fff3e0;
+  border: 1px solid #ffcc80;
+  border-radius: 10px;
+}
+
+.install-sheet-callout-title {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e65100;
+}
+
+.install-sheet-callout-text {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #5d4037;
+}
+
 .install-sheet-sub {
   margin: 0 0 8px;
   font-size: 0.9rem;
