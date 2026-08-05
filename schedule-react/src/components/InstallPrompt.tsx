@@ -126,11 +126,17 @@ export default function InstallPrompt() {
             {(isLocal || currentHost !== deployHost) && (
               <div className="install-sheet-callout install-sheet-callout-danger">
                 <p className="install-sheet-callout-title">
-                  먼저 배포 주소로 접속하세요
+                  주소창 — vercel.app 줄을 탭하세요
                 </p>
                 <p className="install-sheet-callout-text">
-                  Chrome 첫 화면 ✓ <strong>일정</strong>이 172… 로컬 주소면 홈
-                  화면 메뉴가 안 나올 수 있습니다.
+                  <strong>schedule</strong> 입력하면 제목(일정·schedule-react 등)과
+                  주소가 <strong>두 줄</strong>로 나옵니다.
+                  <br />
+                  <strong>{deployHost}</strong> 또는{' '}
+                  <strong>vercel.app</strong>이 보이는 줄을 탭하세요.
+                  <br />
+                  <strong>172.30…</strong> 줄은 PC 개발용이라 홈 화면 추가가
+                  안 됩니다.
                 </p>
                 <a className="install-sheet-link" href={DEPLOY_URL}>
                   {deployHost} 로 열기 →
@@ -161,7 +167,15 @@ export default function InstallPrompt() {
                   <p className="install-sheet-sub">① ⋮ 메뉴 (가장 흔함)</p>
                   <ol>
                     <li>
-                      주소창에 <strong>{deployHost}</strong> 입력 후 접속
+                      주소창에 <strong>schedule</strong> 입력
+                    </li>
+                    <li>
+                      목록에서 <strong>vercel.app</strong> 주소 탭
+                      <br />
+                      <span className="install-sheet-hint">
+                        (위 줄 제목은 무시, 아래 URL이{' '}
+                        <strong>{deployHost}</strong> 인 것)
+                      </span>
                     </li>
                     <li>
                       주소창 오른쪽 <strong>⋮</strong> 탭
