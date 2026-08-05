@@ -214,12 +214,12 @@ function App() {
     <main
       className={`app${isFormOpen ? ' form-open' : ''}${isMobileLayout && isCalendarCollapsed ? ' calendar-collapsed' : ''}`}
     >
-      <InstallPrompt />
       <div
         className="app-scroll"
         ref={scrollRef}
         onScroll={handleScroll}
       >
+        <InstallPrompt />
         <div
           className={`calendar-section${isMobileLayout && isCalendarCollapsed ? ' is-collapsed' : ''}`}
           onTouchStart={swipeMonth.onTouchStart}
