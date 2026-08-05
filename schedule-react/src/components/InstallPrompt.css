@@ -120,6 +120,20 @@
   text-decoration: none;
 }
 
+.install-sheet-copy {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .install-sheet-steps-highlight {
   padding: 10px 12px;
   background: #e8f5e9;

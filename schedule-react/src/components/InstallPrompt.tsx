@@ -1,4 +1,4 @@
-// PWA — 홈 화면 추가 (공유 버튼·Vercel URL 안내)
+// PWA — 홈 화면 추가 안내 (공유 메뉴 ≠ 홈 화면)
 import { useState } from 'react';
 import { useMobileLayout } from '../hooks/useMobileLayout';
 import { usePwaInstall } from '../hooks/usePwaInstall';
@@ -17,12 +17,14 @@ export default function InstallPrompt() {
     showInstallUi,
   } = usePwaInstall();
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(
     () => localStorage.getItem(BANNER_KEY) === '1'
   );
 
   const isLocal = isLocalDevUrl();
   const currentHost = window.location.hostname;
+  const deployHost = DEPLOY_URL.replace('https://', '');
 
   if (!showInstallUi) return null;
 
@@ -33,6 +35,16 @@ export default function InstallPrompt() {
   function dismissBanner() {
     localStorage.setItem(BANNER_KEY, '1');
     setBannerDismissed(true);
+  }
+
+  async function copyDeployUrl() {
+    try {
+      await navigator.clipboard.writeText(DEPLOY_URL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
   }
 
   async function handleEntryClick() {
@@ -51,7 +63,6 @@ export default function InstallPrompt() {
 
   return (
     <>
-      {/* 달력 위 — 모바일에서 눈에 잘 띄는 바 */}
       {isMobile && (
         <button type="button" className="install-mobile-bar" onClick={openSheet}>
           📱 폰 홈 화면에 추가 — 방법 보기
@@ -69,10 +80,10 @@ export default function InstallPrompt() {
 
       {isMobile && !bannerDismissed && !sheetOpen && (
         <aside className="install-banner" aria-label="홈 화면 추가 안내">
-          <p className="install-banner-title">⋮ 메뉴에 없어도 됩니다</p>
+          <p className="install-banner-title">공유 ↗ 는 링크 보내기입니다</p>
           <p className="install-banner-text">
-            <strong>공유 ↗</strong> 버튼으로 추가할 수 있어요.{' '}
-            <strong>📱 폰 홈 화면에 추가</strong> 바를 눌러 보세요.
+            <strong>📱 폰 홈 화면에 추가</strong> 바에서 ⋮·북마크 방법을
+            확인하세요.
           </p>
           <button type="button" className="install-banner-close" onClick={dismissBanner}>
             닫기
@@ -101,18 +112,36 @@ export default function InstallPrompt() {
               지금 주소: <strong>{currentHost}</strong>
             </p>
 
-            {isLocal && (
+            <div className="install-sheet-callout">
+              <p className="install-sheet-callout-title">
+                공유 ↗ = 링크복사·QR코드 (홈 화면 아님)
+              </p>
+              <p className="install-sheet-callout-text">
+                공유를 눌렀을 때 <strong>링크 복사·긴 스크린샷·QR코드</strong>만
+                보이면 정상입니다. 홈 화면 추가는 <strong>⋮ 메뉴</strong> 또는{' '}
+                <strong>북마크</strong>로 합니다.
+              </p>
+            </div>
+
+            {(isLocal || currentHost !== deployHost) && (
               <div className="install-sheet-callout install-sheet-callout-danger">
                 <p className="install-sheet-callout-title">
-                  172… 로컬 주소 — 홈 화면 추가 안 됩니다
+                  먼저 배포 주소로 접속하세요
                 </p>
                 <p className="install-sheet-callout-text">
-                  Chrome 첫 화면 ✓ 일정 아이콘이 <strong>172.30…</strong>로
-                  연결돼 있으면 홈 화면 메뉴가 안 나올 수 있어요.
+                  Chrome 첫 화면 ✓ <strong>일정</strong>이 172… 로컬 주소면 홈
+                  화면 메뉴가 안 나올 수 있습니다.
                 </p>
                 <a className="install-sheet-link" href={DEPLOY_URL}>
-                  {DEPLOY_URL.replace('https://', '')} 로 열기 →
+                  {deployHost} 로 열기 →
                 </a>
+                <button
+                  type="button"
+                  className="install-sheet-copy"
+                  onClick={copyDeployUrl}
+                >
+                  {copied ? '복사됨!' : '주소 복사'}
+                </button>
               </div>
             )}
 
@@ -129,42 +158,57 @@ export default function InstallPrompt() {
             {platform === 'android' && (
               <>
                 <div className="install-sheet-steps install-sheet-steps-highlight">
-                  <p className="install-sheet-sub">① 공유 버튼 (⋮에 없을 때 이 방법)</p>
+                  <p className="install-sheet-sub">① ⋮ 메뉴 (가장 흔함)</p>
                   <ol>
                     <li>
-                      주소창 <strong>오른쪽 공유 ↗</strong> 아이콘 탭
-                      <br />
-                      <span className="install-sheet-hint">
-                        (없으면 ⋮ → <strong>공유</strong>)
-                      </span>
+                      주소창에 <strong>{deployHost}</strong> 입력 후 접속
                     </li>
                     <li>
-                      아래 시트에서 <strong>홈 화면에 추가</strong> 탭
+                      주소창 오른쪽 <strong>⋮</strong> 탭
                     </li>
                     <li>
-                      <strong>추가</strong>
+                      맨 위 <strong>아이콘 줄(↓다운로드)</strong> 말고,{' '}
+                      <strong>글자 메뉴를 아래로 스크롤</strong>
+                    </li>
+                    <li>
+                      <strong>바로가기 만들기</strong> 또는{' '}
+                      <strong>홈 화면에 추가</strong> 탭 → <strong>추가</strong>
                     </li>
                   </ol>
                 </div>
 
                 <div className="install-sheet-steps">
-                  <p className="install-sheet-sub">② ⋮ 메뉴 (있을 때)</p>
+                  <p className="install-sheet-sub">② ⋮에 없을 때 — 북마크로</p>
                   <ol>
                     <li>
-                      주소창 오른쪽 <strong>⋮</strong> 탭
+                      주소창 왼쪽 <strong>☆ 별</strong> 탭 → 북마크 저장
                     </li>
                     <li>
-                      <strong>아래로 스크롤</strong> →{' '}
-                      <strong>바로가기 만들기</strong>
+                      <strong>⋮</strong> → <strong>북마크</strong>
                     </li>
                     <li>
-                      <strong>추가</strong>
+                      <strong>일정</strong> 길게 누르기 →{' '}
+                      <strong>홈 화면에 추가</strong>
+                      <br />
+                      <span className="install-sheet-hint">
+                        (메뉴 이름은 기기마다 조금 다를 수 있음)
+                      </span>
                     </li>
                   </ol>
-                  <p className="install-sheet-tip install-sheet-warn">
-                    ⋮ 맨 위 <strong>↓ 다운로드</strong>는 페이지 저장입니다.
-                    바로가기가 아니에요.
-                  </p>
+                </div>
+
+                <div className="install-sheet-steps">
+                  <p className="install-sheet-sub">③ 추가 후 확인</p>
+                  <ol>
+                    <li>
+                      <strong>폰 바탕화면</strong> 또는 <strong>앱 서랍</strong>에
+                      「일정」 아이콘 확인
+                    </li>
+                    <li>
+                      아이콘 길게 누르기 → <strong>제거</strong>면 바로가기,{' '}
+                      <strong>삭제/제거</strong>면 앱 설치
+                    </li>
+                  </ol>
                 </div>
               </>
             )}
@@ -173,6 +217,9 @@ export default function InstallPrompt() {
               <div className="install-sheet-steps">
                 <p className="install-sheet-sub">iPhone · iPad (Safari)</p>
                 <ol>
+                  <li>
+                    Safari에서 <strong>{deployHost}</strong> 접속
+                  </li>
                   <li>
                     하단 <strong>공유</strong> → <strong>홈 화면에 추가</strong>
                   </li>
@@ -194,7 +241,8 @@ export default function InstallPrompt() {
 
             {!swReady && !isLocal && (
               <p className="install-sheet-tip">
-                메뉴가 안 보이면 <strong>새로고침</strong> 후 다시 시도하세요.
+                ⋮에 메뉴가 없으면 <strong>새로고침</strong> 후 ①·②를 다시
+                시도하세요.
               </p>
             )}
 
