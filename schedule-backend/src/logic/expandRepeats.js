@@ -80,8 +80,15 @@ function matchesWeekly(anchor, day, interval, weekdays) {
   return weekDiff % interval === 0;
 }
 
-/** 매월 — N개월마다 n번째 요일 */
+/** 매월 — N개월마다 n번째 요일 또는 고정 일 */
 function getMonthlyOccurrence(year, monthIndex, config) {
+  if (config.monthlyMode === 'date') {
+    const day = config.monthDay ?? 1;
+    const candidate = new Date(year, monthIndex, day);
+    if (candidate.getMonth() !== monthIndex) return null;
+    return candidate;
+  }
+
   const ordinal = config.monthOrdinal ?? 1;
   const weekday = config.monthWeekday ?? 0;
   return getNthWeekdayOfMonth(year, monthIndex, ordinal, weekday);

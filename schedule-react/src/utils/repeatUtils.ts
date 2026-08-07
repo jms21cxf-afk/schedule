@@ -2,6 +2,7 @@
 import type { RepeatType } from '../types/schedule';
 import {
   WEEKDAY_OPTIONS,
+  formatMonthDateLabel,
   formatMonthWeekdayLabel,
   formatYearDateLabel,
   formatYearNthWeekdayLabel,
@@ -38,16 +39,16 @@ export function formatRepeatSummary(
     return `${base} · ${intervalPart} · ${dayLabels}`;
   }
 
-  if (
-    repeat === 'monthly' &&
-    config.monthOrdinal &&
-    config.monthWeekday !== undefined
-  ) {
-    const monthPart = formatMonthWeekdayLabel(
-      config.monthOrdinal,
-      config.monthWeekday
-    );
-    return `${base} · ${intervalPart} · ${monthPart}`;
+  if (repeat === 'monthly') {
+    const monthlyPart =
+      config.monthlyMode === 'date'
+        ? formatMonthDateLabel(config.monthDay ?? 1)
+        : config.monthOrdinal && config.monthWeekday !== undefined
+          ? formatMonthWeekdayLabel(config.monthOrdinal, config.monthWeekday)
+          : null;
+    if (monthlyPart) {
+      return `${base} · ${intervalPart} · ${monthlyPart}`;
+    }
   }
 
   if (repeat === 'yearly' && config.yearMonth) {

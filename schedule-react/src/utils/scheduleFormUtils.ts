@@ -13,6 +13,8 @@ function mapRepeatConfig(config?: Schedule['repeatConfig']): RepeatConfig | unde
     weekdays: config.weekdays ?? [],
     monthOrdinal: config.monthOrdinal,
     monthWeekday: config.monthWeekday,
+    monthlyMode: config.monthlyMode,
+    monthDay: config.monthDay,
     yearlyMode: config.yearlyMode,
     yearMonth: config.yearMonth,
     yearDay: config.yearDay,

@@ -24,16 +24,20 @@ export function normalizeRepeatConfig(repeat, raw) {
   };
 
   if (repeat === 'monthly') {
-    const monthOrdinal = Math.min(
+    result.monthlyMode =
+      raw.monthlyMode === 'date' ? 'date' : 'nthWeekday';
+    result.monthDay = Math.min(
+      31,
+      Math.max(1, Number(raw.monthDay) || 1)
+    );
+    result.monthOrdinal = Math.min(
       5,
       Math.max(1, Number(raw.monthOrdinal) || 1)
     );
-    const monthWeekday =
+    result.monthWeekday =
       raw.monthWeekday !== undefined && raw.monthWeekday !== null
         ? Math.min(6, Math.max(0, Number(raw.monthWeekday)))
         : 0;
-    result.monthOrdinal = monthOrdinal;
-    result.monthWeekday = monthWeekday;
   }
 
   if (repeat === 'yearly') {

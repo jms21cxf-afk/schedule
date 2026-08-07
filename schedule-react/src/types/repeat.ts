@@ -6,10 +6,17 @@ export type RepeatEndType = 'never' | 'date';
 /** 매년 — 날짜(8월 1일) vs n번째 요일(8월 1번째 토요일) */
 export type YearlyMode = 'date' | 'nthWeekday';
 
+/** 매월 — 고정 일(26일) vs n번째 요일(4번째 수요일) */
+export type MonthlyMode = 'date' | 'nthWeekday';
+
 export interface RepeatConfig {
   interval: number;
   /** 0=일 … 6=토 (Date.getDay) — 매주 */
   weekdays: number[];
+  /** 매월 — 반복 방식 */
+  monthlyMode?: MonthlyMode;
+  /** 매월 — 일 (1~31) */
+  monthDay?: number;
   /** 매월 — 해당 월 n번째 (1~5) */
   monthOrdinal?: number;
   /** 매월 — 요일 0=일 … 6=토 */
@@ -67,6 +74,11 @@ export function formatMonthWeekdayLabel(
   return `${ordinal}번째 ${name}요일`;
 }
 
+/** 매월 고정 일 라벨 — 예: 26일 */
+export function formatMonthDateLabel(day: number): string {
+  return `${day}일`;
+}
+
 /** 매년 날짜 라벨 — 예: 8월 1일 */
 export function formatYearDateLabel(month: number, day: number): string {
   return `${month}월 ${day}일`;
@@ -106,7 +118,12 @@ export function syncRepeatConfigWithAnchorDate(
     return { ...config, weekdays: [anchorDate.getDay()] };
   }
   if (repeat === 'monthly') {
-    return { ...config, monthOrdinal: ordinal, monthWeekday: weekday };
+    return {
+      ...config,
+      monthDay: anchorDate.getDate(),
+      monthOrdinal: ordinal,
+      monthWeekday: weekday,
+    };
   }
   if (repeat === 'yearly') {
     return { ...config, ...yearly };
@@ -124,6 +141,8 @@ export function createDefaultRepeatConfig(
   return {
     interval: 1,
     weekdays: repeat === 'weekly' ? [anchorDate.getDay()] : [],
+    monthlyMode: repeat === 'monthly' ? 'date' : undefined,
+    monthDay: repeat === 'monthly' ? anchorDate.getDate() : undefined,
     monthOrdinal: repeat === 'monthly' ? ordinal : undefined,
     monthWeekday: repeat === 'monthly' ? weekday : undefined,
     yearlyMode: repeat === 'yearly' ? 'date' : undefined,
@@ -152,14 +171,22 @@ export function normalizeRepeatConfig(
         ? base.weekdays
         : [];
 
-  const monthOrdinal =
-    repeat === 'monthly'
-      ? Math.min(5, Math.max(1, Number(config.monthOrdinal) || base.monthOrdinal || 1))
-      : undefined;
-  const monthWeekday =
-    repeat === 'monthly'
-      ? config.monthWeekday ?? base.monthWeekday
-      : undefined;
+  let monthlyFields = {};
+  if (repeat === 'monthly') {
+    monthlyFields = {
+      monthlyMode:
+        config.monthlyMode === 'date' ? 'date' : ('nthWeekday' as const),
+      monthDay: Math.min(
+        31,
+        Math.max(1, Number(config.monthDay) || base.monthDay || anchorDate.getDate())
+      ),
+      monthOrdinal: Math.min(
+        5,
+        Math.max(1, Number(config.monthOrdinal) || base.monthOrdinal || 1)
+      ),
+      monthWeekday: config.monthWeekday ?? base.monthWeekday,
+    };
+  }
 
   let yearlyFields = {};
   if (repeat === 'yearly') {
@@ -180,8 +207,7 @@ export function normalizeRepeatConfig(
   return {
     interval,
     weekdays,
-    monthOrdinal,
-    monthWeekday,
+    ...monthlyFields,
     ...yearlyFields,
     endType: config.endType === 'date' ? 'date' : 'never',
     endDate: config.endType === 'date' ? config.endDate : undefined,

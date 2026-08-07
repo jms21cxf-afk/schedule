@@ -27,6 +27,8 @@ const scheduleSchema = new mongoose.Schema(
       weekdays: { type: [Number], default: [] },
       monthOrdinal: { type: Number, min: 1, max: 5, default: null },
       monthWeekday: { type: Number, min: 0, max: 6, default: null },
+      monthlyMode: { type: String, enum: ['date', 'nthWeekday'], default: null },
+      monthDay: { type: Number, min: 1, max: 31, default: null },
       yearlyMode: { type: String, enum: ['date', 'nthWeekday'], default: 'date' },
       yearMonth: { type: Number, min: 1, max: 12, default: null },
       yearDay: { type: Number, min: 1, max: 31, default: null },

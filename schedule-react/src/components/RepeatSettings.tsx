@@ -3,6 +3,7 @@ import type { RepeatType } from '../types/schedule';
 import { REPEAT_OPTIONS } from '../types/schedule';
 import {
   WEEKDAY_OPTIONS,
+  formatMonthDateLabel,
   formatMonthWeekdayLabel,
   formatYearDateLabel,
   formatYearNthWeekdayLabel,
@@ -40,13 +41,14 @@ export default function RepeatSettings({
       ? config.endDate
       : '없음';
 
-  // 매월 — 선택 날짜 기준 n번째 요일
-  const monthWeekdayLabel = (() => {
-    const { ordinal, weekday } = getMonthWeekdayFromDate(anchorDate);
-    const o = config.monthOrdinal ?? ordinal;
-    const w = config.monthWeekday ?? weekday;
-    return formatMonthWeekdayLabel(o, w);
-  })();
+  // 매월 — 26일 / 4번째 수요일
+  const { ordinal, weekday } = getMonthWeekdayFromDate(anchorDate);
+  const monthDay = config.monthDay ?? anchorDate.getDate();
+  const monthOrdinal = config.monthOrdinal ?? ordinal;
+  const monthWeekday = config.monthWeekday ?? weekday;
+  const monthDateLabel = formatMonthDateLabel(monthDay);
+  const monthWeekdayLabel = formatMonthWeekdayLabel(monthOrdinal, monthWeekday);
+  const monthlyMode = config.monthlyMode ?? 'nthWeekday';
 
   // 매년 — 8월 1일 / 8월 1번째 토요일
   const yearlyFromAnchor = getYearlyFromDate(anchorDate);
@@ -146,9 +148,28 @@ export default function RepeatSettings({
             </div>
           )}
 
-          {/* 매월 — 선택한 날짜의 n번째 요일 */}
+          {/* 매월 — 고정 일 / n번째 요일 */}
           {repeat === 'monthly' && (
-            <p className="repeat-pattern-label">{monthWeekdayLabel}</p>
+            <div className="repeat-yearly-options">
+              <button
+                type="button"
+                className={`repeat-yearly-option${
+                  monthlyMode === 'date' ? ' active' : ''
+                }`}
+                onClick={() => updateConfig({ monthlyMode: 'date' })}
+              >
+                {monthDateLabel}
+              </button>
+              <button
+                type="button"
+                className={`repeat-yearly-option${
+                  monthlyMode === 'nthWeekday' ? ' active' : ''
+                }`}
+                onClick={() => updateConfig({ monthlyMode: 'nthWeekday' })}
+              >
+                {monthWeekdayLabel}
+              </button>
+            </div>
           )}
 
           {/* 매년 — 날짜 / n번째 요일 */}
