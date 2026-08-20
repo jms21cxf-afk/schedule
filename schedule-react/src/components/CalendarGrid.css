@@ -83,6 +83,17 @@
   line-height: 1;
 }
 
+/* 날짜 옆 24절기 — 공휴일(빨강)과 구분되는 회색 */
+.day-solar-term {
+  color: #6d6d6d;
+  font-size: 0.55rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .day-holiday-label {
   display: block;
   margin-bottom: 2px;
@@ -153,5 +164,9 @@
     font-size: 0.45rem;
     margin-bottom: 0;
     max-width: 100%;
+  }
+
+  .calendar-grid.compact .day-solar-term {
+    font-size: 0.5rem;
   }
 }

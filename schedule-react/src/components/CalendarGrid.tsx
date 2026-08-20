@@ -1,6 +1,7 @@
-// 캘린더 그리드 — 요일·날짜·셀 안 일정·공휴일·분류 아이콘 표시
+// 캘린더 그리드 — 요일·날짜·셀 안 일정·공휴일·24절기·분류 아이콘 표시
 import { WEEKDAYS, buildCalendarCells, isSameDay } from '../utils/dateUtils';
 import { getKoreanHoliday } from '../utils/koreanHolidays';
+import { getKoreanSolarTerm } from '../utils/koreanSolarTerms';
 import ScheduleIconMark from './ScheduleIconMark';
 import type { Schedule } from '../types/schedule';
 import './CalendarGrid.css';
@@ -68,6 +69,7 @@ export default function CalendarGrid({
 
               const cellDate = new Date(year, month - 1, day);
               const holidayName = getKoreanHoliday(year, month, day);
+              const solarTermName = getKoreanSolarTerm(year, month, day);
               const isHoliday = holidayName !== null;
               const isSelected =
                 selectedDate !== null && isSameDay(cellDate, selectedDate);
@@ -86,6 +88,11 @@ export default function CalendarGrid({
                       <span className={`day-num ${dayNumClass}`}>{day}</span>
                       {!compact && isToday && (
                         <span className="today-label">오늘</span>
+                      )}
+                      {solarTermName && (
+                        <span className="day-solar-term" title={solarTermName}>
+                          {solarTermName}
+                        </span>
                       )}
                     </div>
                     {holidayName && (
